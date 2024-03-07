@@ -9,12 +9,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+
 public class Register_Activity extends AppCompatActivity {
     private Button Registerbtn2;
     private EditText passwordText;
     private EditText passwordText2;
     private EditText usernameText;
     private EditText emailText;
+    private RequestQueue queue;
+    private MyRequest request;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +31,10 @@ public class Register_Activity extends AppCompatActivity {
         usernameText= findViewById(R.id.usernameText);
         emailText= findViewById(R.id.emailText);
 
+
+        queue = MySingleton.getInstance(this).getRequestQueue();
+        request = new MyRequest(this, queue);
+
         Registerbtn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -36,8 +44,10 @@ public class Register_Activity extends AppCompatActivity {
                 final String PASSWORD = passwordText.getText().toString().trim();
                 final String PASSWORD2 = passwordText2.getText().toString().trim();
 
-                Intent monIntent3 = new Intent(getApplicationContext(),Login.class);
-                startActivity(monIntent3);
+                request.register(LOGIN, EMAIL, PASSWORD, PASSWORD2);
+
+//                Intent monIntent3 = new Intent(getApplicationContext(),Login.class);
+//                startActivity(monIntent3);
             }
         });
     }
