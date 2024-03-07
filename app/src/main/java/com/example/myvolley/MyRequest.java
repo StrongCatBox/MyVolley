@@ -25,7 +25,7 @@ public class MyRequest {
     }
 
     public void register(final String LOGIN, final String EMAIL, final String PASSWORD, final String PASSWORD2){
-        String url = "192.168.1.159/MyVolley/register.php";
+        String url = "http://192.168.1.159/MyVolley/register.php";
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

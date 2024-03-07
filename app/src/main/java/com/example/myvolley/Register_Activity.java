@@ -46,8 +46,6 @@ public class Register_Activity extends AppCompatActivity {
 
                 request.register(LOGIN, EMAIL, PASSWORD, PASSWORD2);
 
-//                Intent monIntent3 = new Intent(getApplicationContext(),Login.class);
-//                startActivity(monIntent3);
             }
         });
     }
