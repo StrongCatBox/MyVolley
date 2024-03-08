@@ -10,6 +10,7 @@ public class LoginOkActivity extends AppCompatActivity {
 
     private TextView idText;
     private TextView emailText1;
+    private TextView id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,12 +19,15 @@ public class LoginOkActivity extends AppCompatActivity {
 
         idText= findViewById(R.id.idText);
         emailText1= findViewById(R.id.emailText1);
+        id= findViewById(R.id.id);
 
-        Intent intent = getIntent();
-        String pseudo = intent.getStringExtra("pseudo");
-        String email = intent.getStringExtra("email");
 
-        idText.setText("Pseudo: " + pseudo);
-        emailText1.setText("Email: " + email);
+        String strID = (String) getIntent().getSerializableExtra("idOK");
+        String strLogin = (String) getIntent().getSerializableExtra("loginOK");
+        String strEmail = (String) getIntent().getSerializableExtra("emailOK");
+
+        idText.setText("Pseudo: " + strID);
+        emailText1.setText("Email: " + strLogin);
+        emailText1.setText("Email: " + strEmail);
     }
 }

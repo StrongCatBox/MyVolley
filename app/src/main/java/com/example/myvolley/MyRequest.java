@@ -29,7 +29,7 @@ public class MyRequest {
         this.queue = queue;
     }
 
-    public void register(final String LOGIN, final String EMAIL, final String PASSWORD, final String PASSWORD2, final RetoursPHP rP){
+    public void register(final String LOGIN, final String EMAIL, final String PASSWORD, final String PASSWORD2, final LoginCallBack callBack){
         String url = "http://192.168.1.159/MyVolley/register.php";
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -43,15 +43,15 @@ public class MyRequest {
 
                     if(!error) {
                         //Toast.makeText(context, "Reussite de l'inscription", Toast.LENGTH_LONG).show();
-                        rP.toutOK("felicitation votre compte a été créée");
+                        callBack.toutOK("felicitation votre compte a été créée");
                     } else {
                         //Toast.makeText(context, "Erreur lors de l'inscription", Toast.LENGTH_LONG).show();
-                        rP.pasOK(json.getString("message"));
+                        callBack.pasOK(json.getString("message"));
                         Log.d("PHP", "Passage rp.PasOK dans MYregister");
                     }
                 } catch (JSONException e) {
                     Log.d("PHP", "passage dans le catch de register: " + e);
-                    rP.systemError("Une erreur est survenue, veuillez renouveler votre essai");
+                    callBack.systemError("Une erreur est survenue, veuillez renouveler votre essai");
                     //Toast.makeText(context, ":( Problème serveur rencontré", Toast.LENGTH_LONG).show();
                 }
 
@@ -61,9 +61,9 @@ public class MyRequest {
             public void onErrorResponse(VolleyError error) {
                 Log.d("PHP", "Error :"+ error);
                 if((error instanceof NetworkError)) {
-                    rP.systemError("Une erreur reseau s'est produite, \n\r impossible de joindre le serveur");
+                    callBack.systemError("Une erreur reseau s'est produite, \n\r impossible de joindre le serveur");
                 } else if (error instanceof  VolleyError) {
-                    rP.systemError("Une erreur s'est produite, impossible de joindre le serveur");
+                    callBack.systemError("Une erreur s'est produite, impossible de joindre le serveur");
                 }
 
             }
@@ -87,7 +87,7 @@ public class MyRequest {
     }
 
 
-    public void login(final String LOGIN,final String PASSWORD, final RetoursPHP rP){
+    public void login(final String LOGIN,final String PASSWORD, final LoginCallBack callBack){
         String url = "http://192.168.1.159/MyVolley/login.php";
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -100,17 +100,18 @@ public class MyRequest {
 
 
                     if(!error) {
-                        //Toast.makeText(context, "Reussite de l'inscription", Toast.LENGTH_LONG).show();
-                        rP.toutOK("Vous etes bien connectée");
+                        HashMap<String,String>logIN = new HashMap<>();
+                        logIN.put("id",json.getString("id"));
+                        logIN.put("login",json.getString("login"));
+                        logIN.put("email",json.getString("email"));
+                        callBack.toutOK(logIN,"felicitation vous etes connecté");
+                        Log.d("PHP","hashmap logIN+logIN");
                     } else {
-                        //Toast.makeText(context, "Erreur lors de l'inscription", Toast.LENGTH_LONG).show();
-                        rP.pasOK(json.getString("message"));
-                        Log.d("PHP", "Passage rp.PasOK dans MYregister");
+                        callBack.pasOK(json.getString("message"));
                     }
-                } catch (JSONException e) {
-                    Log.d("PHP", "passage dans le catch de register: " + e);
-                    rP.systemError("Une erreur est survenue, veuillez renouveler votre essai");
-                    //Toast.makeText(context, ":( Problème serveur rencontré", Toast.LENGTH_LONG).show();
+                } catch (JSONException e)  {
+                    e.printStackTrace();
+                    Log.d("PHP", "passage dans le catch de login "+e);
                 }
 
             }
@@ -119,9 +120,9 @@ public class MyRequest {
             public void onErrorResponse(VolleyError error) {
                 Log.d("PHP", "Error :"+ error);
                 if((error instanceof NetworkError)) {
-                    rP.systemError("Une erreur reseau s'est produite, \n\r impossible de joindre le serveur");
+                    callBack.systemError("Une erreur reseau s'est produite, \n\r impossible de joindre le serveur");
                 } else if (error instanceof  VolleyError) {
-                    rP.systemError("Une erreur s'est produite, impossible de joindre le serveur");
+                    callBack.systemError("Une erreur s'est produite, impossible de joindre le serveur");
                 }
 
             }
@@ -145,9 +146,15 @@ public class MyRequest {
 
 
     }
-    public interface RetoursPHP {
-        void toutOK(String message); //tout c'est bien passé
+    public interface LoginCallBack {
+        void toutOK(HashMap<String,String>logIN,String message); //tout c'est bien passé
+
+        void toutOK(String message);
+
         void pasOK(String message); //erreurs de saisie
         void systemError(String message);
     }
 }
+
+
+

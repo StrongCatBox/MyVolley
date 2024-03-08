@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 
+import java.util.HashMap;
+
 public class Login extends AppCompatActivity {
 
     private EditText UsernameField;
@@ -46,15 +48,23 @@ public class Login extends AppCompatActivity {
 
                 if (!LOGIN.isEmpty() && !PASSWORD.isEmpty()) {
 
-                    request.login(LOGIN, PASSWORD, new MyRequest.RetoursPHP() {
+                    request.login(LOGIN, PASSWORD, new MyRequest.LoginCallBack() {
+
+
                         @Override
-                        public void toutOK(String message) {
+                        public void toutOK(HashMap<String, String> logIN, String message) {
                             Log.d("PHP", "messagePHP: " + message);
-                            Intent i = new Intent(getApplicationContext(), LoginOkActivity.class);
                             Toast.makeText(Login.this, message, Toast.LENGTH_SHORT).show();
+                            Intent i = new Intent(getApplicationContext(), LoginOkActivity.class);
+                            i.putExtra("idOK", logIN.get(("login")));
+                            i.putExtra("loginOK", logIN.get(("login")));
+                            i.putExtra("emailOK", logIN.get(("email")));
+
                             startActivity(i);
                             finish();
+
                         }
+
 
                         @Override
                         public void pasOK(String message) {
