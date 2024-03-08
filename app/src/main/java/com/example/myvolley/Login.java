@@ -50,8 +50,9 @@ public class Login extends AppCompatActivity {
                         @Override
                         public void toutOK(String message) {
                             Log.d("PHP", "messagePHP: " + message);
-                            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                            Intent i = new Intent(getApplicationContext(), LoginOkActivity.class);
                             Toast.makeText(Login.this, message, Toast.LENGTH_SHORT).show();
+                            startActivity(i);
                             finish();
                         }
 
