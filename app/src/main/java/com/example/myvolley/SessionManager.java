@@ -24,6 +24,7 @@ public class SessionManager {
         return preferences.getBoolean(IS_LOGGED, false);
     }
 
+
     public String getLogin () {
         return preferences.getString(LOGIN, null);
 

@@ -62,10 +62,8 @@ public class Login extends AppCompatActivity {
                         public void toutOK(HashMap<String, String> logIN, String message) {
                             Log.d("PHP", "messagePHP: " + message);
                             Toast.makeText(Login.this, message, Toast.LENGTH_SHORT).show();
+                            sessionManager.insertUser(logIN.get(("id")),logIN.get(("login")),logIN.get("email"));
                             Intent i = new Intent(getApplicationContext(), LoginOkActivity.class);
-                            i.putExtra("idOK", logIN.get(("login")));
-                            i.putExtra("loginOK", logIN.get(("login")));
-                            i.putExtra("emailOK", logIN.get(("email")));
 
                             startActivity(i);
                             finish();
