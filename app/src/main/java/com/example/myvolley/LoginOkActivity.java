@@ -19,7 +19,7 @@ public class LoginOkActivity extends AppCompatActivity {
 
         idText= findViewById(R.id.idText);
         emailText1= findViewById(R.id.emailText1);
-        id= findViewById(R.id.id);
+        id= findViewById(R.id.idText);
 
 
         String strID = (String) getIntent().getSerializableExtra("idOK");

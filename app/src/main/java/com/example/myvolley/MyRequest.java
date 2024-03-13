@@ -2,7 +2,6 @@ package com.example.myvolley;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -29,7 +28,7 @@ public class MyRequest {
         this.queue = queue;
     }
 
-    public void register(final String LOGIN, final String EMAIL, final String PASSWORD, final String PASSWORD2, final LoginCallBack callBack){
+    public void register(final String LOGIN, final String EMAIL, final String PASSWORD, final String PASSWORD2, final RetoursPHP callBack){
         String url = "http://192.168.1.159/MyVolley/register.php";
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -149,10 +148,17 @@ public class MyRequest {
     public interface LoginCallBack {
         void toutOK(HashMap<String,String>logIN,String message); //tout c'est bien passé
 
-        void toutOK(String message);
-
         void pasOK(String message); //erreurs de saisie
         void systemError(String message);
+    }
+
+    public interface RetoursPHP {
+        void toutOK(String message);//tout c'est bien passé
+
+        void pasOK(String message);// erreur de saisie
+
+        void systemError(String message);// gestion  des erreurs systeme
+
     }
 }
 

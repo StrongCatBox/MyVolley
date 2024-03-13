@@ -23,6 +23,7 @@ public class Login extends AppCompatActivity {
 
     private RequestQueue queue;
     private MyRequest request;
+    private SessionManager sessionManager;
 
 
     @Override
@@ -38,6 +39,12 @@ public class Login extends AppCompatActivity {
 
         queue = MySingleton.getInstance(this).getRequestQueue();
         request = new MyRequest(this, queue);
+
+        sessionManager = new SessionManager(this);
+        if (sessionManager.isLogged()){
+            Intent i = new Intent(getApplicationContext(), LoginOkActivity.class);
+            startActivity(i);
+        }
 
 
         LoginBtn.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +71,7 @@ public class Login extends AppCompatActivity {
                             finish();
 
                         }
+
 
 
                         @Override
